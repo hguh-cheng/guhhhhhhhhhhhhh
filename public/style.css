@@ -4,15 +4,57 @@ html {
   padding: 0;
   height: 100%;
   overflow: hidden;
-  background-color: #111;
+  background-color: #1a1a1a; /* Slightly lighter dark grey */
+  display: flex;
+  justify-content: center;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+#textInput {
+  position: fixed; /* Change from 'fixed' to 'absolute' */
+  bottom: 15vh; /* Adjust the vertical position as needed */
+  left: 50%;
+  transform: translateX(-50%); /* Center the input horizontally */
+  padding: 12px 25px;
+  font-size: 18px;
+  border-radius: 25px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(100, 100, 100, 0.8); /* Gray background */
+  color: #ffffff; /* White text */
+  outline: none;
+  width: 300px;
+  text-align: center;
+  transition: all 0.3s ease;
+  z-index: 2;
+  backdrop-filter: blur(8px);
+}
+
+#textInput::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+#textInput:focus {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  background-color: rgba(150, 150, 150, 0.8); /* Slightly darker on focus */
 }
 
 .ball {
   position: absolute;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.8);
-  width: 10px;
-  height: 10px;
+  background-color: rgba(255, 255, 255, 0.9); /* Brighter white dots */
+  width: 6px; /* Slightly smaller dots */
+  height: 6px;
   pointer-events: none;
 }
 

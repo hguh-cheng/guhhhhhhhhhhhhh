@@ -3,12 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dots in Shape of "GUHH"</title>
+    <title>GUHH</title>
     <link rel="stylesheet" href="style.css" />
     <!-- Link to CSS file -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <canvas id="canvas"></canvas>
+    <div style="position: relative; z-index: 2">
+      <input type="text" id="textInput" placeholder="Wavy Text" />
+    </div>
+    <canvas
+      id="canvas"
+      style="position: absolute; top: 0; left: 0; z-index: 1"
+    ></canvas>
+
     <script src="balls.js"></script>
     <!-- Link to JavaScript file -->
   </body>
