@@ -21,22 +21,23 @@ html {
 }
 
 #textInput {
-  position: fixed; /* Change from 'fixed' to 'absolute' */
-  bottom: 15vh; /* Adjust the vertical position as needed */
+  position: fixed;
+  bottom: 15vh;
   left: 50%;
-  transform: translateX(-50%); /* Center the input horizontally */
+  transform: translateX(-50%);
   padding: 12px 25px;
   font-size: 18px;
   border-radius: 25px;
   border: 2px solid rgba(255, 255, 255, 0.1);
-  background-color: rgba(100, 100, 100, 0.8); /* Gray background */
-  color: #ffffff; /* White text */
+  background-color: rgba(100, 100, 100, 0.8);
+  color: #ffffff;
   outline: none;
   width: 300px;
   text-align: center;
   transition: all 0.3s ease;
-  z-index: 2;
+  z-index: 3;
   backdrop-filter: blur(8px);
+  box-sizing: border-box; /* Ensures padding doesn't add extra space */
 }
 
 #textInput::placeholder {

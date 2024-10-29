@@ -10,15 +10,29 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
       rel="stylesheet"
     />
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
   </head>
   <body>
-    <div style="position: relative; z-index: 2">
-      <input type="text" id="textInput" placeholder="Wavy Text" />
+    <div style="position: relative; z-index: 3">
+      <input type="text" id="textInput" placeholder="Type Something..." />
+    </div>
+    <div
+      id="counterDisplay"
+      style="position: relative; z-index: 2; color: white; margin-bottom: 10px"
+    >
+      Entered: <span id="counter">0</span> times
     </div>
     <canvas
       id="canvas"
       style="position: absolute; top: 0; left: 0; z-index: 1"
     ></canvas>
+
+    <script src="config.js"></script>
+    <script>
+      // Initialize Firebase using the config from config.js
+      firebase.initializeApp(firebaseConfig);
+    </script>
 
     <script src="balls.js"></script>
     <!-- Link to JavaScript file -->

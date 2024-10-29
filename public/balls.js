@@ -1,3 +1,4 @@
+// Initialize canvas and variables
 const balls = [];
 const adjacentPairs = [];
 const canvas = document.getElementById("canvas");
@@ -23,12 +24,59 @@ document
   });
 
 function updateText() {
-  const textInput = document.getElementById("textInput").value;
-  if (textInput) {
-    init(textInput);
+  const textInput = document.getElementById("textInput");
+  const text = textInput.value;
+  if (text) {
+    saveLastTextInput(text); // Save input
+    updateCounter(); // Update input counter
+    init(text); // Reinitialize points with new text
+    textInput.value = ""; // Clear the input box after submission
   }
 }
 
+// Save input to localStorage
+function saveLastTextInput(text) {
+  localStorage.setItem("lastInput", text); // Save input locally
+  console.log("Last text input saved locally.");
+}
+
+// Retrieve input from localStorage on page load and initialize with it
+function retrieveLastTextInput() {
+  const lastText = localStorage.getItem("lastInput");
+  if (lastText) {
+    document.getElementById("textInput").value = lastText;
+    init(lastText); // Initialize canvas with the last saved input
+  } else {
+    init("GUHH"); // Default text if no saved input
+  }
+}
+
+// Initialize counter in localStorage if it doesn’t exist
+function initializeCounter() {
+  if (localStorage.getItem("inputCount") === null) {
+    localStorage.setItem("inputCount", 0);
+  }
+  updateCounterDisplay();
+}
+
+// Increment and update input count
+function updateCounter() {
+  let count = parseInt(localStorage.getItem("inputCount"), 10);
+  if (isNaN(count)) {
+    count = 0;
+  }
+  count++;
+  localStorage.setItem("inputCount", count);
+  updateCounterDisplay();
+}
+
+// Display counter from localStorage
+function updateCounterDisplay() {
+  const count = localStorage.getItem("inputCount");
+  document.getElementById("counter").textContent = count;
+}
+
+// Draw text as balls
 function getTextShapePoints(text) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "#ffffff";
@@ -56,6 +104,7 @@ function getTextShapePoints(text) {
   return points;
 }
 
+// Create balls from text shape points
 function createBallsFromPoints(points) {
   points.forEach((point) => {
     const ball = {
@@ -80,6 +129,7 @@ function createBallElement(x, y) {
   return ball;
 }
 
+// Find adjacent dots for lines
 function findAdjacentDots() {
   balls.forEach((ball1, index1) => {
     balls.forEach((ball2, index2) => {
@@ -96,6 +146,7 @@ function findAdjacentDots() {
   });
 }
 
+// Mouse movement effect
 document.addEventListener("mousemove", (e) => {
   balls.forEach((ball) => {
     const dx = e.clientX - ball.originalX;
@@ -105,10 +156,8 @@ document.addEventListener("mousemove", (e) => {
     if (dist < 150) {
       const angle = Math.atan2(dy, dx);
       const repelDistance = Math.min((150 - dist) / 5, maxRepelDistance);
-      const newX = ball.originalX + Math.cos(angle) * -repelDistance;
-      const newY = ball.originalY + Math.sin(angle) * -repelDistance;
-      ball.currentX = newX;
-      ball.currentY = newY;
+      ball.currentX = ball.originalX + Math.cos(angle) * -repelDistance;
+      ball.currentY = ball.originalY + Math.sin(angle) * -repelDistance;
       ball.element.style.transform = `translate(${
         Math.cos(angle) * -repelDistance
       }px, ${Math.sin(angle) * -repelDistance}px)`;
@@ -122,16 +171,13 @@ document.addEventListener("mousemove", (e) => {
   drawLines();
 });
 
+// Draw lines between adjacent dots
 function drawLines() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.lineWidth = 1;
 
   adjacentPairs.forEach((pair) => {
     const [ball1, ball2] = pair;
-    const dx = ball1.currentX - ball2.currentX;
-    const dy = ball1.currentY - ball2.currentY;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-
     ctx.strokeStyle = "#fff";
 
     ctx.beginPath();
@@ -141,27 +187,27 @@ function drawLines() {
   });
 }
 
+// Initialize text effect
 function init(text = "GUHH") {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  balls.forEach((ball) => ball.element.remove());
-  balls.length = 0;
-  adjacentPairs.length = 0;
+  balls.forEach((ball) => ball.element.remove()); // Clear previous balls
+  balls.length = 0; // Clear balls array
+  adjacentPairs.length = 0; // Clear adjacent pairs
 
-  const points = getTextShapePoints(text);
-  createBallsFromPoints(points);
-  drawLines();
+  const points = getTextShapePoints(text); // Get new points based on text
+  createBallsFromPoints(points); // Create balls with new points
+  drawLines(); // Draw lines based on new points
 }
 
-// Changed the initialization to wait for DOM content to load
+// DOMContentLoaded event to initialize with saved text or default text
 document.addEventListener("DOMContentLoaded", () => {
-  init("GUHH"); // Explicitly pass "GUHH" as the default text
+  retrieveLastTextInput(); // Retrieve and initialize with last saved input
+  initializeCounter(); // Initialize counter
 });
 
-// Adjust canvas on window resize
+// Resize canvas and reinitialize on window resize
 window.addEventListener("resize", () => {
   resizeCanvas();
-
-  // Retrieve current text from textInput
   const currentText = document.getElementById("textInput").value;
   init(currentText);
 });
