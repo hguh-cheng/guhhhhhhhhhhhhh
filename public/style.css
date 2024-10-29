@@ -4,7 +4,7 @@ html {
   padding: 0;
   height: 100%;
   overflow: hidden;
-  background-color: #1a1a1a; /* Slightly lighter dark grey */
+  background-color: #1a1a1a;
   display: flex;
   justify-content: center;
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -12,19 +12,17 @@ html {
 }
 
 .container {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  position: fixed; /* Fixed position */
+  bottom: 15vh; /* Place it above the bottom of the screen */
+  left: 50%;
+  transform: translateX(-50%); /* Center horizontally */
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center align items */
+  z-index: 3; /* Ensure container is above canvas */
 }
 
 #textInput {
-  position: fixed;
-  bottom: 15vh;
-  left: 50%;
-  transform: translateX(-50%);
   padding: 12px 25px;
   font-size: 18px;
   border-radius: 25px;
@@ -35,9 +33,7 @@ html {
   width: 300px;
   text-align: center;
   transition: all 0.3s ease;
-  z-index: 3;
-  backdrop-filter: blur(8px);
-  box-sizing: border-box; /* Ensures padding doesn't add extra space */
+  box-sizing: border-box;
 }
 
 #textInput::placeholder {
@@ -47,22 +43,28 @@ html {
 #textInput:focus {
   border-color: rgba(255, 255, 255, 0.2);
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-  background-color: rgba(150, 150, 150, 0.8); /* Slightly darker on focus */
+  background-color: rgba(150, 150, 150, 0.8);
+}
+
+#counterDisplay {
+  color: rgba(255, 255, 255, 0.2);
+  margin-top: 10px; /* Add a little space above the counter */
 }
 
 .ball {
   position: absolute;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.9); /* Brighter white dots */
-  width: 6px; /* Slightly smaller dots */
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 6px;
   height: 6px;
   pointer-events: none;
 }
 
 #canvas {
-  position: absolute;
+  position: absolute; /* Keep canvas absolute */
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 0; /* Ensure canvas is below input elements */
 }

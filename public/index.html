@@ -14,18 +14,13 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
   </head>
   <body>
-    <div style="position: relative; z-index: 3">
+    <div class="container">
       <input type="text" id="textInput" placeholder="Type Something..." />
-    </div>
-    <div
-      id="counterDisplay"
-      style="position: relative; z-index: 2; color: white; margin-bottom: 10px"
-    >
-      Entered: <span id="counter">0</span> times
+      <div id="counterDisplay">Global Guhhs: <span id="counter">0</span></div>
     </div>
     <canvas
       id="canvas"
-      style="position: absolute; top: 0; left: 0; z-index: 1"
+      style="position: absolute; top: 0; left: 0; z-index: 0"
     ></canvas>
 
     <script src="config.js"></script>

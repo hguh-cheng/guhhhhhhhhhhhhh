@@ -51,29 +51,43 @@ function retrieveLastTextInput() {
   }
 }
 
-// Initialize counter in localStorage if it doesn’t exist
+// Initialize counter from Firestore
 function initializeCounter() {
-  if (localStorage.getItem("inputCount") === null) {
-    localStorage.setItem("inputCount", 0);
-  }
-  updateCounterDisplay();
+  const db = firebase.firestore();
+  const counterRef = db.collection("counters").doc("inputCounter");
+
+  // Fetch initial counter value from Firestore
+  counterRef.get().then((doc) => {
+    if (doc.exists) {
+      document.getElementById("counter").textContent = doc.data().count;
+    } else {
+      // If no counter document exists, initialize it
+      counterRef.set({ count: 0 });
+      document.getElementById("counter").textContent = 0;
+    }
+  });
+
+  // Listen for real-time updates on the counter
+  counterRef.onSnapshot((doc) => {
+    if (doc.exists) {
+      document.getElementById("counter").textContent = doc.data().count;
+    }
+  });
 }
 
 // Increment and update input count
 function updateCounter() {
-  let count = parseInt(localStorage.getItem("inputCount"), 10);
-  if (isNaN(count)) {
-    count = 0;
-  }
-  count++;
-  localStorage.setItem("inputCount", count);
-  updateCounterDisplay();
-}
+  const db = firebase.firestore();
+  const counterRef = db.collection("counters").doc("inputCounter");
 
-// Display counter from localStorage
-function updateCounterDisplay() {
-  const count = localStorage.getItem("inputCount");
-  document.getElementById("counter").textContent = count;
+  // Use Firestore's atomic increment
+  counterRef
+    .update({
+      count: firebase.firestore.FieldValue.increment(1),
+    })
+    .catch((error) => {
+      console.error("Error updating counter: ", error);
+    });
 }
 
 // Draw text as balls
